@@ -6,17 +6,18 @@ from xecai.utils.summarizer import _prepare_summary_payload, sync_summarize_conv
 from xecai.models import Message, MessageType, Chunk, Conversation
 
 def test_trim_conversation_basic():
-    conversation = ["hello", "world"]
-    trimmed = trim_conversation(conversation, max_length=1)
+    messages = [Message(content="hello", message_type=MessageType.USER), Message(content="world", message_type=MessageType.BOT)]
+    trimmed = trim_conversation(messages, max_chars=20)
     assert isinstance(trimmed, list)
-    assert len(trimmed) <= 1
+    assert len(trimmed) == 2
+    assert trimmed[0].content == "hello"
+    assert trimmed[1].content == "world"
 
 def test_trim_conversation_with_max_chars():
     messages = [Message(content="hello", message_type=MessageType.USER), Message(content="world", message_type=MessageType.BOT)]
     trimmed = trim_conversation(messages, max_chars=5)
     assert isinstance(trimmed, list)
-    assert len(trimmed) == 1
-    assert trimmed[0].content == "hello"
+    assert len(trimmed) == 0
 
 def test_make_rag_prompt():
     chunk = Chunk(document="doc1", content="some content", score=0.9)
@@ -41,7 +42,7 @@ def test_prepare_summary_payload():
     conv = Conversation(messages=[Message(content="hello", message_type=MessageType.USER)])
     payload = _prepare_summary_payload(conv)
     assert isinstance(payload, list)
-    assert payload[0].content == "hello"
+    assert payload[0].content == "USER: hello"
 
 def test_sync_summarize_conversation(monkeypatch):
     class DummyMemory:
