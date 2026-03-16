@@ -16,10 +16,11 @@ def _prepare_condense_payload(
     if not previous_messages:
         return None
 
+    conversation_text = "\n".join([msg.to_prompt_text() for msg in previous_messages])
     condense_content = f"""
         Conversation:
 
-        {"\n".join([msg.to_prompt_text() for msg in previous_messages])}
+        {conversation_text}
 
         Question: {new_question}
         """
