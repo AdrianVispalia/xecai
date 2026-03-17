@@ -75,8 +75,48 @@ memory.sync_save_conversation(conversation)
 
 </details>
 
+### Embedding interface
+
+<details>
+
+```python
+from embeddings.implementations.openai.openai_embedding import OpenAIEmbedding
+
+embedding = OpenAIEmbedding()
+
+vector = embedding.sync_get_embeddings("This is a test document.", "text-embedding-3-small")
+print(len(vector))
+```
+
+</details>
+
+### Reranker interface
+
+<details>
+
+```python
+from reranker.implementations.aws.aws_reranker import AWSReranker
+from models import Chunk
+
+reranker = AWSReranker()
+
+chunks = [
+    Chunk(content="A document about cats.", document="doc1", origin="web", fragment=0),
+    Chunk(content="A document about dogs.", document="doc2", origin="web", fragment=0)
+]
+
+reranked_chunks = reranker.sync_rerank("tell me about cats", chunks, k=1)
+print(reranked_chunks)
+```
+
+</details>
+
 
 ## Typical rag workflow
+
+### Diagram
+
+<details>
 
 ```mermaid
 graph TD
@@ -94,7 +134,7 @@ graph TD
     classDef condense fill:#BA0C2F,stroke:#BA0C2F,color:#FFFFFF,rx:8,ry:8;
     
     %% Ink Black
-    classDef retrieve fill:#0B0F19,stroke:#0B0F19,color:#FFFFFF,rx:8,ry:8;
+    classDef retrieve fill:#1B1F29,stroke:#0B0F19,color:#FFFFFF,rx:8,ry:8;
 
     %% Clean, subtle slate-gray connecting lines
     linkStyle default stroke:#A0AAB2,stroke-width:2px,fill:none;
@@ -115,6 +155,8 @@ graph TD
     CondenseQuery --> RetrieveChunks
     RetrieveChunks --> LLMResponse
 ```
+
+</details>
 
 You can find an example of the typical RAG implemented with FastAPI on `examples/simple_rag.py`.
 
