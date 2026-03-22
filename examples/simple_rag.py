@@ -1,10 +1,12 @@
 # Before running: uv pip install uvicorn fastapi
 
 from contextlib import asynccontextmanager
+
 import uvicorn
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from pydantic import BaseModel
+
 from xecai.chat.implementations.openai_chat import OpenAIChat
 from xecai.embeddings.implementations.openai_embedding import OpenAIEmbedding
 from xecai.memory.implementations.debug_memory import DebugMemory

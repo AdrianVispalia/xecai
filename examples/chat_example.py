@@ -1,5 +1,7 @@
 import asyncio
+
 from dotenv import load_dotenv
+
 from xecai.chat.chat_interface import ChatInterface
 from xecai.chat.implementations.anthropic_chat import AnthropicChat
 from xecai.chat.implementations.aws_chat import AWSChat
@@ -33,17 +35,11 @@ if __name__ == "__main__":
     provider = input("Test provider: ")
     match provider:
         case "aws":
-            chat = AWSChat()
-            # amazon.nova-lite-v1:0 does not support reasoning
-            model = "us.anthropic.claude-sonnet-4-6"
+            chat, model = AWSChat(), "us.anthropic.claude-sonnet-4-6"
         case "google":
-            chat = GoogleChat()
-            model = "gemini-3-flash-preview"
+            chat, model = GoogleChat(), "gemini-3-flash-preview"
         case "anthropic":
-            chat = AnthropicChat()
-            model = "claude-sonnet-4-6"
+            chat, model = AnthropicChat(), "claude-sonnet-4-6"
         case _:
-            chat = OpenAIChat()
-            model = "gpt-4o"
-            # model = "o3-mini"
+            chat, model = OpenAIChat(), "gpt-4o"
     asyncio.run(tester(chat, model))

@@ -27,8 +27,8 @@ include = ["xecai*"]
 [project.optional-dependencies]
 aws = ["aiobotocore>=3.2.0", "boto3>=1.42.55"]
 google = ["google-genai>=1.65.0"]
-anthropic = ["anthropic>=0.84.0"]
-openai = ["openai>=2.24.0"]
+anthropic = ["anthropic>=0.84.0", "claude-agent-sdk>=0.1.50"]
+openai = ["openai>=2.24.0", "openai-agents>=0.12.5"]
 redis = ["redis>=5.0.0"]
 postgresql = ["psycopg[binary,pool]>=3.1.18", "pgvector>=0.2.5"]
 pinecone = ["pinecone>=8.1.0"]
@@ -43,5 +43,7 @@ all = [
     "motor>=3.3.2",
     "psycopg[binary,pool]>=3.1.18",
     "pinecone>=8.1.0",
-    "pgvector>=0.2.5"
+    "pgvector>=0.2.5",
+    "claude-agent-sdk>=0.1.50",
+    "openai-agents>=0.12.5"
 ]
